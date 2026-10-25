@@ -43,13 +43,9 @@ details{margin:6px 0 16px;color:var(--mu);font-size:14px}summary{cursor:pointer;
 <div class="bar"><div id="pb"></div></div>
 <div class="lv" id="lv"></div>
 <div class="card" id="pn"></div>
-<div class="foot">Dijalankan 100%% di browser kamu (GitHub Pages / static hosting apa pun). Latihan legal untuk belajar, bukan target nyata.</div>
 
 <script>
-// ---- data terenkripsi per level: {seed, cipher, hash} ----
-// Tidak ada teks "nandax{...}" di mana pun dalam file ini.
-// Flag hanya didekripsi setelah logika exploit level itu berhasil
-// direplikasi dengan input yang benar.
+
 const DATA = {"0": {"seed": "ac30b9bc47ac57e481bc4fa1", "cipher": "9f06986ab25079a751337232d1b33bc2f293ded6d4986048", "hash": "e38f62c0b93a645f4eb889e83d0a19684c658dbf45f18e50588780b07d4b47a5"}, "1": {"seed": "bf6befce6f5f41379de2424b", "cipher": "b40f6253ced2fe31cac62ca04f9bae1731ddda58f5cb5fce2700b36dae4951", "hash": "8c4aaa4063f843d76dc5aa9974028e6066d23508b2fe64f2c4f5fb340e64f295"}, "2": {"seed": "6f122f6268f18032132e66c4", "cipher": "79e8136b70318b58e653a5835ed5aa863f72ff167d0cafabe895980a43c0", "hash": "bdba9f8c1ba92c9e1510756434c9d182e2a3f60450e03fda13ed5ecd97290483"}, "3": {"seed": "a85f5cb5b97e4340328a3e8a", "cipher": "f0da76a953f5662c4cc2b52756ffabcf7d6ff39bf2628c84201d8bd710", "hash": "08ef206bb3504bd0d16d0c08b16e4d6f4f6de3cf7d6ba85be9d2a753d54096c5"}};
 
 async function sha256Bytes(str){
