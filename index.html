@@ -4,147 +4,188 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>nandax — Hack The Planet</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --bg-color: #0b1a12;
+    --window-bg: #122b1c;
+    --border-color: #38b056;
+    --accent-yellow: #ffe600;
+    --accent-green: #00ff66;
+    --text-color: #d1ffdb;
+    --dark-box: #07120c;
+  }
+
   body {
-    background-color: #008080;
-    color: #000000;
-    font-family: "Courier New", Courier, monospace;
-    font-size: 13px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    line-height: 1.6;
     margin: 0;
-    padding: 10px;
+    padding: 15px;
+    image-rendering: pixelated;
   }
 
   .window {
     width: 100%;
-    max-width: 650px;
+    max-width: 680px;
     margin: 10px auto;
-    background-color: #c0c0c0;
-    border: 3px solid;
-    border-color: #ffffff #000000 #000000 #ffffff;
-    padding: 4px;
+    background-color: var(--window-bg);
+    border: 4px solid var(--accent-yellow);
+    box-shadow: 6px 6px 0px #000000, inset 0 0 0 2px var(--border-color);
+    padding: 6px;
     box-sizing: border-box;
   }
 
   .title-bar {
-    background-color: #000080;
-    color: #ffffff;
+    background-color: var(--accent-yellow);
+    color: #000000;
     font-weight: bold;
-    padding: 3px 5px;
+    font-size: 10px;
+    padding: 8px 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #000;
   }
 
   .title-bar-buttons button {
-    background-color: #c0c0c0;
-    border: 2px solid;
-    border-color: #ffffff #000000 #000000 #ffffff;
-    width: 16px;
-    height: 16px;
-    font-size: 9px;
+    background-color: #000;
+    color: var(--accent-yellow);
+    border: 2px solid var(--accent-yellow);
+    width: 18px;
+    height: 18px;
+    font-size: 8px;
+    font-family: 'Press Start 2P', monospace;
     font-weight: bold;
-    line-height: 10px;
     text-align: center;
     padding: 0;
     cursor: pointer;
   }
 
+  .title-bar-buttons button:hover {
+    background-color: var(--accent-green);
+    color: #000;
+  }
+
   .content-area {
-    background-color: #ffffff;
-    border: 2px solid;
-    border-color: #000000 #ffffff #ffffff #000000;
-    padding: 12px;
+    background-color: var(--dark-box);
+    border: 3px solid var(--border-color);
+    padding: 15px;
     box-sizing: border-box;
   }
 
   .menu-bar {
-    border-bottom: 1px solid #808080;
-    padding-bottom: 8px;
-    margin-bottom: 12px;
+    border-bottom: 2px dashed var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
     word-break: break-word;
+    color: var(--accent-yellow);
+    font-size: 10px;
   }
 
   .btn {
-    background-color: #c0c0c0;
+    background-color: var(--accent-yellow);
     color: #000000;
-    border: 2px solid;
-    border-color: #ffffff #000000 #000000 #ffffff;
-    padding: 6px 12px;
-    font-family: "Courier New", Courier, monospace;
-    font-size: 12px;
+    border: 3px solid #ffffff;
+    box-shadow: 3px 3px 0px var(--accent-green);
+    padding: 8px 12px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
     font-weight: bold;
     text-decoration: none;
     display: inline-block;
     cursor: pointer;
-    margin-right: 5px;
-    margin-top: 5px;
+    margin-right: 8px;
+    margin-top: 8px;
+  }
+
+  .btn:hover {
+    background-color: var(--accent-green);
+    color: #000;
+    box-shadow: 3px 3px 0px var(--accent-yellow);
   }
 
   .btn:active {
-    border-color: #000000 #ffffff #ffffff #000000;
-    padding: 7px 11px 5px 13px;
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--accent-yellow);
   }
 
   h1 {
-    font-size: 16px;
-    margin: 0 0 10px 0;
-    color: #000080;
+    font-size: 13px;
+    margin: 0 0 12px 0;
+    color: var(--accent-green);
     word-break: break-word;
+    line-height: 1.4;
+    text-shadow: 2px 2px #000;
   }
 
   h2 {
-    font-size: 14px;
-    background-color: #000080;
-    color: #ffffff;
-    padding: 2px 5px;
-    margin-top: 20px;
+    font-size: 11px;
+    background-color: var(--border-color);
+    color: #000000;
+    padding: 6px 8px;
+    margin-top: 22px;
+    border: 2px solid var(--accent-yellow);
   }
 
   ul {
-    padding-left: 20px;
-    margin: 5px 0;
+    padding-left: 18px;
+    margin: 8px 0;
   }
 
   li {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     word-break: break-word;
   }
 
   p {
     word-break: break-word;
+    margin-bottom: 10px;
   }
 
   a {
-    color: #0000ff;
-    text-decoration: underline;
+    color: var(--accent-yellow);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--accent-yellow);
   }
 
   a:hover {
-    color: #ff0000;
+    color: var(--accent-green);
+    background-color: rgba(0, 255, 102, 0.1);
+    border-bottom: 1px solid var(--accent-green);
   }
 
   .status-bar {
-    margin-top: 8px;
-    border: 1px solid #808080;
-    background-color: #c0c0c0;
-    padding: 2px 6px;
-    font-size: 11px;
+    margin-top: 10px;
+    border: 2px solid var(--border-color);
+    background-color: var(--window-bg);
+    color: var(--accent-yellow);
+    padding: 6px 10px;
+    font-size: 9px;
   }
 
   @media (max-width: 480px) {
     body {
-      padding: 4px;
+      padding: 5px;
+      font-size: 10px;
     }
     .window {
       margin: 0 auto;
       border-width: 2px;
+      box-shadow: 3px 3px 0px #000;
     }
     .content-area {
-      padding: 8px;
+      padding: 10px;
     }
-    .menu-bar {
-      font-size: 12px;
+    h1 {
+      font-size: 11px;
+    }
+    h2 {
+      font-size: 10px;
     }
   }
 </style>
@@ -153,43 +194,43 @@
 
 <div class="window">
   <div class="title-bar">
-    <span>nandax.exe - Portfolio</span>
+    <span>> nandax.rom [PLAY]</span>
     <div class="title-bar-buttons">
-      <button>_</button>
-      <button>□</button>
-      <button>×</button>
+      <button>-</button>
+      <button>+</button>
+      <button>X</button>
     </div>
   </div>
 
   <div class="content-area">
     <div class="menu-bar">
-      <b>[Nandax Portfolio v1.0]</b><br>
-      Navigasi: 
-      <a href="#home">Home</a> | 
-      <a href="#about">About</a> | 
-      <a href="#skills">Skills</a> | 
-      <a href="#contrib">Contrib</a> | 
-      <a href="#contact">Contact</a>
+      <b>[QUEST: PORTFOLIO V1.0]</b><br>
+      STAGE: 
+      <a href="#home">HOME</a> | 
+      <a href="#about">ABOUT</a> | 
+      <a href="#skills">SKILLS</a> | 
+      <a href="#contrib">CONTRIB</a> | 
+      <a href="#contact">CONTACT</a>
     </div>
 
     <div id="home">
-      <h1>nandax // HACK THE PLANET</h1>
-      <p>Selamat datang di situs pribadi saya. Situs ini dirancang dengan gaya retro Windows jadul dan sudah disesuaikan agar responsif di semua perangkat (HP, Tablet, PC).</p>
+      <h1>[!] nandax // HACK THE PLANET</h1>
+      <p>Selamat datang di markas digital saya. Tampilan ini dirancang menyerupai game arcade retro piksel dengan kombinasi warna hijau-kuning cerah, dan tetap responsif di HP, Tablet, maupun PC.</p>
     </div>
 
     <div id="about">
       <h2>01. ABOUT ME</h2>
-      <p>Saya nandax. Saya suka membongkar cara kerja sistem, mencari celah, lalu memahami cara menutupnya. Dari menulis script Python untuk otomatisasi, menelusuri jejak digital lewat OSINT, memecahkan tantangan kriptografi di CTF, sampai menguji keamanan lewat pentest.</p>
-      <p><b>Motto:</b> hack the planet</p>
+      <p>Saya nandax. Suka membongkar cara kerja sistem, mencari celah, lalu memahami cara menutupnya. Dari menulis script Python untuk otomatisasi, menelusuri jejak digital lewat OSINT, memecahkan tantangan kriptografi di CTF, sampai menguji keamanan lewat pentest.</p>
+      <p><b style="color: var(--accent-yellow);">Motto:</b> hack the planet</p>
     </div>
 
     <div id="skills">
-      <h2>02. SKILLS</h2>
+      <h2>02. SKILLS (LOADOUT)</h2>
       <ul>
-        <li><b>Python:</b> Scripting, otomatisasi, dan membuat tools sendiri untuk keamanan & analisis.</li>
-        <li><b>OSINT:</b> Mengumpulkan & menganalisis informasi dari sumber terbuka untuk investigasi.</li>
-        <li><b>Crypto CTF:</b> Memecahkan soal kriptografi dari cipher klasik hingga modern.</li>
-        <li><b>Pentest:</b> Menguji keamanan aplikasi & jaringan (menemukan & melaporkan kerentanan).</li>
+        <li><b style="color: var(--accent-yellow);">Python:</b> Scripting, otomatisasi, dan membuat tools sendiri untuk keamanan & analisis.</li>
+        <li><b style="color: var(--accent-yellow);">OSINT:</b> Mengumpulkan & menganalisis informasi dari sumber terbuka untuk investigasi.</li>
+        <li><b style="color: var(--accent-yellow);">Crypto CTF:</b> Memecahkan soal kriptografi dari cipher klasik hingga modern.</li>
+        <li><b style="color: var(--accent-yellow);">Pentest:</b> Menguji keamanan aplikasi & jaringan (menemukan & melaporkan kerentanan).</li>
       </ul>
     </div>
 
@@ -214,16 +255,15 @@
     <div id="contact">
       <h2>04. CONTACT</h2>
       <p>Email = admin@nanda.dpdns.org <br>
-        Tertarik berdiskusi atau berkolaborasi? Kunjungi profil GitHub saya di bawah ini:</p>
-      <a class="btn" href="https://github.com/nandaanomi" target="_blank">Buka GitHub ↗</a>
+        Tertarik berdiskusi atau berkolaborasi? Kunjungi profil GitHub saya:</p>
+      <a class="btn" href="https://github.com/nandaanomi" target="_blank">[ BUKA GITHUB ]</a>
     </div>
   </div>
 
   <div class="status-bar">
-    Ready | © nandax
+    STATUS: READY PLAYER ONE | © nandax
   </div>
 </div>
 
 </body>
-  </html>
-  
+</html>
