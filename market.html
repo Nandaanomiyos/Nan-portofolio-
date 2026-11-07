@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nx Hunter - Premium Discord SaaS & Automation Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Unbounded:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    fontFamily: { sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'] },
+    colors: { red: { DEFAULT: '#d0021b', dark: '#a30115' } }
+  } } }
+</script>
+<style>
+  *, *::before, *::after { border-radius: 0 !important; }
+  html { scroll-behavior: smooth; }
+  h1, h2, h3, .disp { font-family: 'Unbounded', 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 700 !important; letter-spacing: -.02em; }
+  body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: #fff; color: #1a1a1a; }
+  .box { border: 3px solid #d0021b; background: #fff; transition: transform .2s ease, box-shadow .2s ease; }
+  .box-hover:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 #d0021b; }
+  .btn { transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease; }
+  .btn:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 #1a1a1a; }
+  .btn:active { transform: none; box-shadow: none; }
+  .view { animation: enter .35s ease; }
+  @keyframes enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body class="font-sans min-h-screen flex flex-col">
+
+<!-- NAVBAR -->
+<header class="sticky top-0 z-50 bg-white border-b-4 border-red">
+  <nav class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="#/" class="flex items-center gap-3 font-extrabold text-lg disp">
+      <span class="w-10 h-10 bg-red text-white grid place-items-center text-sm">Nx</span>
+      <span class="store-name">Nx Hunter</span>
+    </a>
+    <div class="flex items-center gap-2 text-sm font-bold">
+      <a href="#/" class="px-3 py-2 hover:bg-red hover:text-white transition">Store</a>
+      <a href="#produk" class="btn px-4 py-2 bg-red text-white">Produk</a>
+    </div>
+  </nav>
+</header>
+
+<main class="flex-1">
+
+<!-- ============ HOME ============ -->
+<section id="view-home" class="view">
+  <!-- Hero: merah di atas, putih di bawah -->
+  <div class="bg-red text-white">
+    <div class="max-w-5xl mx-auto px-4 py-16 sm:py-24">
+      <p class="text-sm font-bold uppercase tracking-widest text-white/80">Dibuat untuk pasar Indonesia</p>
+      <h1 class="mt-4 text-3xl sm:text-5xl font-extrabold leading-tight max-w-3xl">Premium Discord SaaS &amp; Automation Tools</h1>
+    </div>
+  </div>
+  <div class="bg-white border-b-4 border-red">
+    <div class="max-w-5xl mx-auto px-4 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+      <p class="text-zinc-700 max-w-xl">Bot siap pakai untuk mengelola langganan, pembayaran, dan komunitas Discord kamu, dengan alur yang cocok untuk Indonesia.</p>
+      <a href="#produk" class="btn bg-red text-white font-bold px-6 py-3 text-center">Lihat Produk</a>
+    </div>
+  </div>
+
+  <div id="produk" class="max-w-5xl mx-auto px-4 py-14 scroll-mt-20">
+    <h2 class="text-2xl font-extrabold">Produk</h2>
+    <div class="mt-2 h-1 w-16 bg-red"></div>
+
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <article class="box box-hover flex flex-col cursor-pointer" data-go="#/ledgerid" tabindex="0" role="link" aria-label="Lihat detail LedgerID">
+        <div class="bg-red p-6 grid place-items-center">
+          <img src="https://cdn.discordapp.com/avatars/1566263345898717245/11a9819984e19ee8287cedddf793d0e9.png" alt="Logo LedgerID" class="w-28 h-28 object-cover border-4 border-white">
+        </div>
+        <div class="p-5 flex flex-col flex-1">
+          <h3 class="text-xl font-extrabold">LedgerID</h3>
+          <p class="mt-1 text-sm text-zinc-600 flex-1">Discord SaaS Subscription &amp; Payment Bot</p>
+          <div class="mt-5 flex items-center justify-between gap-3">
+            <span class="text-sm leading-tight">mulai <b class="text-red" data-price>Rp 19.899</b>/bln<br><span class="text-xs font-bold text-red" data-stock-label></span></span>
+            <a href="#/ledgerid" class="btn bg-red text-white text-sm font-bold px-4 py-2.5">View Details</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DETAIL ============ -->
+<section id="view-detail" class="view hidden">
+  <div class="max-w-5xl mx-auto px-4 pt-8 pb-36">
+    <a href="#/" class="btn inline-block border-3 border-2 border-red text-red font-bold text-sm px-4 py-2.5 hover:bg-red hover:text-white">← Back to Store</a>
+
+    <div class="mt-8 grid lg:grid-cols-5 gap-8 items-start">
+      <div class="lg:col-span-2 box p-6">
+        <img src="https://cdn.discordapp.com/avatars/1566263345898717245/11a9819984e19ee8287cedddf793d0e9.png" alt="Logo LedgerID" class="w-24 h-24 object-cover border-4 border-red">
+        <h1 class="mt-5 text-2xl sm:text-3xl font-extrabold">LedgerID</h1>
+        <p class="text-red font-bold mt-1">Discord SaaS Subscription &amp; Payment Bot</p>
+        <p class="mt-4 text-zinc-700 leading-relaxed">LedgerID membantu kamu menjual akses, role, dan langganan di server Discord secara otomatis. Dirancang khusus untuk alur pembayaran lokal Indonesia, karena bot global jarang cocok dengan kebutuhan penjual di sini.</p>
+      </div>
+
+      <div class="lg:col-span-3">
+        <div class="border-4 border-red bg-white p-2">
+          <img src="https://cdn.discordapp.com/attachments/1567182729814999200/1568652206024954057/4837208e-abf2-414e-a192-963ed418eef8.png?ex=6af098b6&amp;is=6aef4736&amp;hm=7fe3325d41c1601c61516f47d2c1c3eceab5e4b9b555fb7fdda166d56620c2b9&amp;" alt="Preview LedgerID di Discord" class="w-full block">
+        </div>
+        <p class="text-xs text-zinc-500 mt-2">Tampilan LedgerID saat digunakan di Discord</p>
+      </div>
+    </div>
+
+    <h2 class="mt-14 text-2xl font-extrabold">Fitur Utama</h2>
+    <div class="mt-2 h-1 w-16 bg-red"></div>
+    <div id="features" class="mt-6 grid sm:grid-cols-2 gap-0 border-4 border-red"></div>
+
+    <h2 class="mt-14 text-2xl font-extrabold">Harga</h2>
+    <div class="mt-2 h-1 w-16 bg-red"></div>
+    <div class="mt-6 grid md:grid-cols-2 max-w-3xl border-4 border-red">
+      <div id="eb-box" class="bg-red text-white p-7">
+        <span class="inline-block bg-white text-red text-xs font-extrabold px-3 py-1">EARLY BIRD</span>
+        <p class="mt-5 disp text-2xl sm:text-3xl font-extrabold">Rp 19.899<span class="text-base font-semibold text-white/80">/bulan</span></p>
+        <p class="mt-2 text-sm text-white/85">Harga promo khusus <span id="eb-total"></span> pembeli pertama.</p>
+        <div class="mt-5">
+          <div class="h-4 border-2 border-white bg-black/20"><div id="eb-bar" class="h-full bg-white"></div></div>
+          <p id="eb-text" class="mt-2 text-sm font-extrabold"></p>
+        </div>
+      </div>
+      <div class="bg-white p-7">
+        <span class="inline-block bg-red text-white text-xs font-extrabold px-3 py-1">REGULAR</span>
+        <p class="mt-5 disp text-2xl sm:text-3xl font-extrabold text-red">Rp 24.999<span class="text-base font-semibold text-zinc-500">/bulan</span></p>
+        <p class="mt-2 text-sm text-zinc-600">Harga normal setelah promo berakhir.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- STICKY BUY BAR: hanya muncul di halaman produk -->
+<div id="buybar" class="hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t-4 border-red">
+  <div class="max-w-5xl mx-auto px-4 py-3 flex items-center gap-3">
+    <img src="https://cdn.discordapp.com/avatars/1566263345898717245/11a9819984e19ee8287cedddf793d0e9.png" alt="" class="w-12 h-12 object-cover border-2 border-red shrink-0">
+    <div class="min-w-0 flex-1">
+      <p class="font-extrabold leading-tight truncate">LedgerID</p>
+      <p class="text-sm leading-tight"><b class="text-red" data-price>Rp 19.899</b><span class="text-zinc-500">/bulan</span></p>
+      <p class="text-xs font-bold text-red leading-tight mt-0.5" data-stock-label></p>
+    </div>
+    <!-- EDIT NOMOR WHATSAPP DI SINI -->
+    <a href="https://wa.me/6285385275177?text=Halo,%20saya%20tertarik%20menyewa%20bot%20LedgerID%20untuk%20server%20Discord%20saya." target="_blank" rel="noopener"
+       class="btn bg-red text-white font-extrabold px-6 sm:px-10 py-3.5 shrink-0">Beli Sekarang</a>
+  </div>
+</div>
+
+<footer class="bg-red text-white text-center text-sm py-6 px-4">
+  © <span id="year"></span> <span class="store-name">Nx Hunter</span>. Dibuat di Indonesia.
+</footer>
+
+<script>
+  // ---- Edit Pengaturan Toko di sini ----
+  const STORE_NAME = "Nx Hunter";
+  const EARLY_BIRD_TOTAL = 10;  // total slot harga Early Bird
+  const EARLY_BIRD_LEFT  = 10;  // SISA slot sekarang (ganti manual tiap ada yang beli)
+
+  // Penjelasan Fitur yang Baru & Menjual
+  const FEATURES = [
+    { t: "Otomasi Role VIP Real-time", d: "Tidak perlu lagi begadang ngecek mutasi satu per satu. Bot akan langsung memberikan role VIP/Premium ke member detik itu juga saat admin menekan tombol 'Setujui'." },
+    { t: "Sistem Multi-Server (SaaS)", d: "Satu bot, banyak komunitas. Setiap server punya isolasi database tersendiri. Transaksi dan pengaturan Server A tidak akan pernah bocor ke Server B." },
+    { t: "Engine Kupon & Referral", d: "Kembangkan servermu lebih cepat! Member bisa membagikan kode referral atau menebus kupon diskon untuk mendapatkan bonus hari secara otomatis." },
+    { t: "Kuitansi PDF Otomatis", d: "Bangun kredibilitas servermu di mata member. Setiap transaksi yang sukses akan otomatis dicetakkan kuitansi digital PDF yang sah." },
+    { t: "Notifikasi Pengingat Dinamis", d: "Pertahankan pelangganmu. LedgerID akan mengirimkan DM pengingat secara otomatis saat masa langganan member hampir habis (H-3, H-1, atau hitungan jam)." },
+    { t: "Laporan & Ekspor Data (CSV)", d: "Pantau omset servermu dengan mudah. Dapatkan ringkasan total pendapatan bulanan dan ekspor daftar member aktif dalam format CSV." }
+  ];
+
+  document.querySelectorAll(".store-name").forEach(e => e.textContent = STORE_NAME);
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Fitur: kotak selang-seling merah / putih (pola papan)
+  document.getElementById("features").innerHTML = FEATURES.map((f, i) => {
+    const red = (i % 4 === 0 || i % 4 === 3);
+    return `<div class="p-6 ${red ? "bg-red text-white" : "bg-white text-zinc-900"}">
+      <span class="inline-block w-8 h-8 grid place-items-center font-extrabold text-sm ${red ? "bg-white text-red" : "bg-red text-white"}">${i + 1}</span>
+      <h3 class="mt-3 font-extrabold text-lg">${f.t}</h3>
+      <p class="mt-1.5 text-sm leading-relaxed ${red ? "text-white/90" : "text-zinc-600"}">${f.d}</p>
+    </div>`;
+  }).join("");
+
+  // ---- Stok Early Bird ----
+  (function applyStock() {
+    const left = Math.max(0, Math.min(EARLY_BIRD_LEFT, EARLY_BIRD_TOTAL));
+    const soldOut = left === 0;
+    document.getElementById("eb-total").textContent = EARLY_BIRD_TOTAL;
+    document.getElementById("eb-text").textContent = soldOut ? "Slot Early Bird habis" : "Sisa " + left + " dari " + EARLY_BIRD_TOTAL + " slot";
+    document.getElementById("eb-bar").style.width = (left / EARLY_BIRD_TOTAL * 100) + "%";
+    document.querySelectorAll("[data-stock-label]").forEach(e => e.textContent = soldOut ? "Early Bird habis" : "Sisa " + left + " slot Early Bird");
+    if (soldOut) {
+      document.querySelectorAll("[data-price]").forEach(e => e.textContent = "Rp 24.999");
+      document.getElementById("eb-box").classList.add("opacity-60");
+    }
+  })();
+
+  // ---- Simple SPA router ----
+  const home = document.getElementById("view-home");
+  const detail = document.getElementById("view-detail");
+
+  function render() {
+    const isDetail = location.hash.startsWith("#/ledgerid");
+    home.classList.toggle("hidden", isDetail);
+    detail.classList.toggle("hidden", !isDetail);
+    document.getElementById("buybar").classList.toggle("hidden", !isDetail);
+    document.title = isDetail ? "LedgerID — " + STORE_NAME : STORE_NAME + " — Premium Discord SaaS & Automation Tools";
+    if (location.hash === "#produk") document.getElementById("produk").scrollIntoView();
+    else window.scrollTo({ top: 0 });
+  }
+  window.addEventListener("hashchange", render);
+  render();
+
+  document.querySelectorAll("[data-go]").forEach(el => {
+    el.addEventListener("click", () => location.hash = el.dataset.go);
+    el.addEventListener("keydown", e => { if (e.key === "Enter") location.hash = el.dataset.go; });
+  });
+</script>
+</body>
+</html>
