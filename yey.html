@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>CELENGAN.EXE // Mobile Execution Ledger</title>
+<style>
+  :root {
+    --bg: #070a07;
+    --panel: #0e140e;
+    --panel-alt: #141e14;
+    --ink: #f8fafc;
+    --border: #4ade80;
+    --muted: #cbd5e1;
+    --dim: #94a3b8;
+    --green: #16a34a;
+    --green-bright: #4ade80;
+    --gold: #facc15;
+    --gold-pale: #1d1908;
+    --danger: #f87171;
+    --cyan: #38bdf8;
+    --shadow: 4px 4px 0px #000000;
+    --font-mono: 'Courier New', Courier, monospace;
+    --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--bg);
+    background-image: radial-gradient(#1b261b 1px, transparent 1px);
+    background-size: 16px 16px;
+    color: var(--ink);
+    font-family: var(--font-ui);
+    margin: 0;
+    padding: clamp(8px, 2.5vw, 16px);
+    display: flex;
+    justify-content: center;
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+  }
+
+  .terminal {
+    width: 100%;
+    max-width: 520px;
+    background: var(--panel);
+    border: 3px solid var(--border);
+    box-shadow: 6px 6px 0px #031f0e;
+    overflow: hidden;
+  }
+
+  .win-bar {
+    background: #040604;
+    color: var(--green-bright);
+    border-bottom: 2px solid var(--border);
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+  .win-dots { display: flex; gap: 6px; }
+  .dot {
+    width: 11px;
+    height: 11px;
+    border: 1px solid #000;
+    display: inline-block;
+  }
+  .dot.y { background: var(--gold); }
+  .dot.g { background: var(--green-bright); }
+
+  .content {
+    padding: clamp(12px, 3.5vw, 18px);
+  }
+
+  .px-icon {
+    width: 17px;
+    height: 17px;
+    vertical-align: -3px;
+    display: inline-block;
+    shape-rendering: crispEdges;
+  }
+
+  /* Status Strip */
+  .status-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .badge-box {
+    background: var(--panel-alt);
+    border: 2px solid #2d3f2d;
+    padding: 10px 12px;
+    box-shadow: 3px 3px 0px #000;
+  }
+  .badge-label {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--muted);
+    font-weight: bold;
+    letter-spacing: 0.3px;
+  }
+  .badge-val {
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    font-weight: bold;
+    margin-top: 4px;
+    color: #fff;
+  }
+  .badge-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .status-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border: 1px solid #000;
+  }
+  .status-done { background: var(--green-bright); color: #000; }
+  .status-pending { background: var(--gold); color: #000; }
+
+  /* Main Balance Card */
+  .hero-card {
+    background: var(--gold-pale);
+    border: 2.5px solid var(--gold);
+    padding: 14px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
+  .hero-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: bold;
+    color: var(--gold);
+  }
+  .hero-amount {
+    font-family: var(--font-mono);
+    font-size: clamp(1.75rem, 7vw, 2.3rem);
+    font-weight: bold;
+    color: #fff;
+    margin: 6px 0;
+    letter-spacing: -0.5px;
+    word-break: break-word;
+  }
+  .hero-gold-est {
+    background: #080b08;
+    border: 1.5px solid #524610;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    color: var(--gold);
+  }
+
+  /* Section & Progress */
+  .section {
+    background: var(--panel-alt);
+    border: 2px solid #2d3f2d;
+    padding: 12px;
+    margin-bottom: 14px;
+  }
+  .sec-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-bottom: 1.5px dashed #2d3f2d;
+    padding-bottom: 6px;
+    color: var(--green-bright);
+  }
+  .progress-track {
+    width: 100%;
+    height: 26px;
+    background: #070a07;
+    border: 2px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: repeating-linear-gradient(
+      45deg,
+      #15803d,
+      #15803d 10px,
+      #22c55e 10px,
+      #22c55e 20px
+    );
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  .progress-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px #000;
+  }
+  .cycle-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    gap: 8px;
+  }
+
+  /* Quick Deposit Buttons - Thumb Friendly */
+  .quick-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  button {
+    background: #14532d;
+    color: #fff;
+    border: 2px solid var(--green-bright);
+    min-height: 46px;
+    padding: 10px 8px;
+    font-family: var(--font-mono);
+    font-weight: bold;
+    font-size: 0.92rem;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px #000;
+    transition: transform 0.08s;
+  }
+  button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px #000;
+  }
+  button.gold-btn {
+    background: #423306;
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  button.min-btn {
+    width: 100%;
+    background: #0c2a3a;
+    border-color: var(--cyan);
+    color: var(--cyan);
+    font-size: 0.84rem;
+    min-height: 44px;
+    padding: 10px;
+    margin-bottom: 12px;
+  }
+  button.sub-btn {
+    background: #1e293b;
+    border-color: #64748b;
+    color: #f1f5f9;
+    font-size: 0.78rem;
+    min-height: 38px;
+    padding: 7px 10px;
+    box-shadow: 2px 2px 0px #000;
+  }
+  button.sub-btn.gold-btn {
+    background: #423306;
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  button.danger-btn {
+    background: #450a0a;
+    border-color: var(--danger);
+    color: var(--danger);
+  }
+
+  .input-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  /* Font size 16px mencegah auto-zoom di iOS/Android saat fokus */
+  input[type="number"], input[type="text"] {
+    width: 100%;
+    background: #070a07;
+    border: 2px solid #475569;
+    min-height: 44px;
+    padding: 10px;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: #fff;
+  }
+  input::placeholder {
+    color: #64748b;
+    font-size: 0.85rem;
+  }
+  input:focus { outline: none; border-color: var(--gold); }
+
+  /* 30-Day Heatmap */
+  .heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 4px;
+    margin-top: 8px;
+  }
+  .hm-cell {
+    aspect-ratio: 1;
+    border: 1.5px solid #2d3f2d;
+    background: #0a0e0a;
+    color: var(--dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: clamp(0.65rem, 2.4vw, 0.78rem);
+    font-weight: bold;
+  }
+  .hm-l1 { background: #0c4a6e; color: #e0f2fe; border-color: var(--cyan); }
+  .hm-l2 { background: #14532d; color: #dcfce7; border-color: #22c55e; }
+  .hm-l3 { background: #16a34a; color: #fff; border-color: #4ade80; }
+  .hm-l4 { background: var(--gold); color: #000; border-color: #fff; }
+  .hm-today { outline: 2px dashed var(--gold); outline-offset: 1px; }
+
+  .hm-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px;
+    font-size: 0.74rem;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  /* Settings Inline */
+  .config-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-size: 0.8rem;
+  }
+  .config-item label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: var(--muted);
+  }
+
+  /* Logs */
+  .log-list {
+    max-height: 190px;
+    overflow-y: auto;
+    border: 1.5px solid #2d3f2d;
+    background: #070a07;
+    padding: 8px;
+    font-size: 0.84rem;
+  }
+  .log-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 7px 4px;
+    border-bottom: 1px dotted #1e293b;
+  }
+  .log-row:last-child { border-bottom: none; }
+  .log-desc {
+    color: #e2e8f0;
+    word-break: break-word;
+  }
+  .log-amt {
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  /* Floating Coin Particle */
+  .coin-particle {
+    position: fixed;
+    pointer-events: none;
+    font-family: var(--font-mono);
+    font-weight: bold;
+    font-size: 0.95rem;
+    background: var(--gold);
+    color: #000;
+    border: 2px solid #000;
+    padding: 3px 8px;
+    z-index: 9999;
+    animation: floatUp 0.85s ease-out forwards;
+  }
+  @keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-55px); }
+  }
+
+  /* Responsif Khusus Layar HP Kecil (< 380px) */
+  @media (max-width: 380px) {
+    .status-strip { grid-template-columns: 1fr; }
+    .quick-grid { grid-template-columns: 1fr; }
+    .input-row { grid-template-columns: 1fr; }
+    .config-grid { grid-template-columns: 1fr; }
+    .heatmap-grid { grid-template-columns: repeat(6, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="terminal">
+  <div class="win-bar">
+    <span>C:\VAULT\CELENGAN.EXE</span>
+    <div class="win-dots">
+      <span class="dot y"></span>
+      <span class="dot g"></span>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Status Eksekusi & Streak -->
+    <div class="status-strip">
+      <div class="badge-box">
+        <div class="badge-label">STREAK & SHIELD</div>
+        <div class="badge-val">
+          <svg class="px-icon" viewBox="0 0 16 16"><path fill="#f97316" d="M7 1h2v2h2v3h2v5h-2v3H5v-3H3V6h2V3h2V1z"/><path fill="#facc15" d="M7 5h2v3h2v4H5V8h2V5z"/></svg>
+          <span id="streakVal">0</span> HARI
+          <span id="shieldBadge" title="Streak Shield bulan ini" style="margin-left:4px; color:var(--cyan);">
+            <svg class="px-icon" viewBox="0 0 16 16"><path fill="#38bdf8" d="M2 2h12v6c0 4-6 6-6 6s-6-2-6-6V2z"/><path fill="#bae6fd" d="M4 4h8v4c0 2.5-4 4-4 4s-4-1.5-4-4V4z"/></svg>
+            <span id="shieldCount">1</span>
+          </span>
+        </div>
+        <div class="badge-sub">Rekor: <b id="bestStreakVal" style="color:var(--green-bright);">0</b> hr | 30h: <b id="consistencyPct" style="color:var(--gold);">0%</b></div>
+      </div>
+
+      <div class="badge-box">
+        <div class="badge-label">STATUS HARI INI</div>
+        <div class="badge-val"><span class="status-tag status-pending" id="todayStatusTag">BELUM SETOR</span></div>
+        <div class="badge-sub">Masuk: <b id="todayTotalVal" class="mono" style="color:#fff;">Rp 0</b></div>
+      </div>
+    </div>
+
+    <!-- Saldo Utama & Konversi Emas -->
+    <div class="hero-card">
+      <div class="hero-top">
+        <span>CELENGAN AKTIF</span>
+        <span id="lifetimeStat">Akumulasi: Rp 30.000</span>
+      </div>
+      <div class="hero-amount" id="balanceVal">Rp 30.000</div>
+      <div class="hero-gold-est">
+        <span>
+          <svg class="px-icon" viewBox="0 0 16 16"><path fill="#facc15" d="M5 1h6v2h2v10h-2v2H5v-2H3V3h2V1z"/><path fill="#fef08a" d="M7 4h2v8H7V4z"/></svg>
+          Estimasi Emas: <b id="goldGramVal" class="mono">0.0194 gr</b>
+        </span>
+        <span style="font-size:0.78rem; color:var(--muted);">(@ <span id="goldPriceLabel" class="mono">Rp 1.550.000</span>/gr)</span>
+      </div>
+    </div>
+
+    <!-- Target Siklus -->
+    <div class="section">
+      <div class="sec-head">
+        <span>TARGET SIKLUS</span>
+        <span id="targetHeader">Rp 30.000 / Rp 150.000</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-label" id="progressPct">20%</div>
+      </div>
+      <div class="cycle-footer">
+        <span id="milestoneHint" style="font-size:0.82rem; color:var(--muted);">Sisa Rp 120.000 menuju target siklus.</span>
+        <button class="sub-btn gold-btn" onclick="convertCycle()">CAIRKAN KE EMAS</button>
+      </div>
+    </div>
+
+    <!-- Quick Deposit 1-Tap & Anti-Zero Day -->
+    <div class="section">
+      <div class="sec-head">
+        <span>INPUT SETORAN (1-TAP)</span>
+        <span style="font-size:0.74rem; color:var(--muted);">OFFLINE SAVE</span>
+      </div>
+      <div class="quick-grid">
+        <button onclick="deposit(3000, 'Setoran harian', event)">+Rp 3.000</button>
+        <button onclick="deposit(5000, 'Setoran harian', event)">+Rp 5.000</button>
+        <button class="gold-btn" onclick="deposit(10000, 'Setoran ekstra', event)">+Rp 10.000</button>
+      </div>
+      <button class="min-btn" onclick="deposit(1000, 'Setoran minimum (Anti-Zero Day)', event)">
+        +Rp 1.000 (SETORAN MINIMUM)
+      </button>
+
+      <div class="input-stack">
+        <div class="input-row">
+          <input type="number" inputmode="numeric" id="customAmount" placeholder="Nominal lain (Rp)">
+          <input type="text" id="customNote" placeholder="Catatan (opsional)">
+        </div>
+        <button onclick="depositCustom(event)" style="width:100%;">+ SIMPAN SETORAN MANUAL</button>
+      </div>
+    </div>
+
+    <!-- Heatmap 30 Hari -->
+    <div class="section">
+      <div class="sec-head">
+        <span>HEATMAP 30 HARI</span>
+        <span id="activeDaysCount" style="font-size:0.78rem; color:var(--gold);">0/30 hari aktif</span>
+      </div>
+      <div class="heatmap-grid" id="heatmapGrid"></div>
+      <div class="hm-legend">
+        <span>0 = Kosong</span>
+        <span>1k Biru | 3k Hijau | 5k Terang | 10k+ Emas</span>
+      </div>
+    </div>
+
+    <!-- Pengaturan Target & Harga Emas -->
+    <div class="section">
+      <div class="sec-head">
+        <span>PARAMETER SIKLUS & EMAS</span>
+      </div>
+      <div class="config-grid">
+        <div class="config-item">
+          <label>Target Siklus (Rp)</label>
+          <input type="number" inputmode="numeric" id="targetInput" onchange="updateSettings()">
+        </div>
+        <div class="config-item">
+          <label>Harga Emas / gr (Rp)</label>
+          <input type="number" inputmode="numeric" id="goldPriceInput" onchange="updateSettings()">
+        </div>
+      </div>
+    </div>
+
+    <!-- Riwayat & Backup JSON -->
+    <div class="section" style="margin-bottom:0;">
+      <div class="sec-head">
+        <span>LOG TRANSAKSI</span>
+        <button class="sub-btn" onclick="undoLast()">UNDO</button>
+      </div>
+      <div class="log-list" id="logList"></div>
+
+      <div class="toolbar">
+        <button class="sub-btn" onclick="exportJSON()">EXPORT JSON</button>
+        <button class="sub-btn" onclick="document.getElementById('importFile').click()">IMPORT JSON</button>
+        <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
+        <button class="sub-btn danger-btn" onclick="resetApp()" style="margin-left:auto;">RESET</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'celengan_retro_v1';
+
+  function todayStr(offsetDays = 0) {
+    const d = new Date();
+    d.setDate(d.getDate() + offsetDays);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  let defaultState = {
+    balance: 30000,
+    lifetimeSaved: 30000,
+    convertedToGoldRp: 0,
+    target: 150000,
+    goldPrice: 1550000,
+    streak: 0,
+    bestStreak: 0,
+    lastDepositDate: null,
+    shieldMonth: todayStr().slice(0, 7),
+    shieldAvailable: true,
+    dailyTotals: {},
+    logs: [
+      { id: Date.now(), date: todayStr(), amount: 30000, note: 'Saldo awal', type: 'in' }
+    ]
+  };
+
+  let state = Object.assign({}, defaultState, JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'));
+
+  function playCoinSound(isMilestone = false) {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'square';
+
+      const now = ctx.currentTime;
+      if (isMilestone) {
+        osc.frequency.setValueAtTime(523.25, now);
+        osc.frequency.setValueAtTime(659.25, now + 0.08);
+        osc.frequency.setValueAtTime(783.99, now + 0.16);
+        osc.frequency.setValueAtTime(1046.5, now + 0.24);
+        gain.gain.setValueAtTime(0.07, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+        osc.start(now);
+        osc.stop(now + 0.42);
+      } else {
+        osc.frequency.setValueAtTime(987.77, now);
+        osc.frequency.setValueAtTime(1318.51, now + 0.07);
+        gain.gain.setValueAtTime(0.06, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+        osc.start(now);
+        osc.stop(now + 0.22);
+      }
+    } catch (e) {}
+  }
+
+  function spawnSparkle(event, text) {
+    const el = document.createElement('div');
+    el.className = 'coin-particle';
+    el.innerText = text;
+    const x = event && event.clientX ? Math.min(window.innerWidth - 110, Math.max(10, event.clientX - 35)) : window.innerWidth / 2 - 40;
+    const y = event && event.clientY ? Math.max(20, event.clientY - 25) : 200;
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 850);
+  }
+
+  function checkStreakIntegrity() {
+    const currentMonth = todayStr().slice(0, 7);
+    if (state.shieldMonth !== currentMonth) {
+      state.shieldMonth = currentMonth;
+      state.shieldAvailable = true;
+    }
+
+    if (!state.lastDepositDate) return;
+    const today = todayStr(0);
+    const yesterday = todayStr(-1);
+    const twoDaysAgo = todayStr(-2);
+
+    if (state.lastDepositDate === today || state.lastDepositDate === yesterday) {
+      return;
+    } else if (state.lastDepositDate === twoDaysAgo && state.shieldAvailable && state.streak > 0) {
+      state.shieldAvailable = false;
+      state.lastDepositDate = yesterday;
+      state.logs.unshift({
+        id: Date.now(),
+        date: today,
+        amount: 0,
+        note: 'Streak Shield terpakai (1 hari terlewat)',
+        type: 'sys'
+      });
+    } else {
+      state.streak = 0;
+    }
+  }
+
+  function save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    render();
+  }
+
+  function deposit(amount, note = 'Setoran harian', event = null) {
+    amount = parseInt(amount);
+    if (!amount || amount <= 0) return;
+
+    checkStreakIntegrity();
+    const today = todayStr(0);
+
+    if (state.lastDepositDate !== today) {
+      state.streak += 1;
+      if (state.streak > (state.bestStreak || 0)) {
+        state.bestStreak = state.streak;
+      }
+      state.lastDepositDate = today;
+    }
+
+    const prevPct = state.balance / state.target;
+    state.balance += amount;
+    state.lifetimeSaved += amount;
+    state.dailyTotals[today] = (state.dailyTotals[today] || 0) + amount;
+
+    state.logs.unshift({
+      id: Date.now(),
+      date: today,
+      amount: amount,
+      note: note.trim() || 'Setoran harian',
+      type: 'in'
+    });
+
+    const reachedTarget = prevPct < 1 && (state.balance / state.target) >= 1;
+    playCoinSound(reachedTarget);
+    spawnSparkle(event, `+Rp ${amount.toLocaleString('id-ID')}`);
+    save();
+  }
+
+  function depositCustom(event) {
+    const amtInp = document.getElementById('customAmount');
+    const noteInp = document.getElementById('customNote');
+    const val = parseInt(amtInp.value);
+    if (val > 0) {
+      deposit(val, noteInp.value || 'Setoran manual', event);
+      amtInp.value = '';
+      noteInp.value = '';
+    }
+  }
+
+  function convertCycle() {
+    if (state.balance <= 0) return;
+    if (confirm(`Catat pencairan Rp ${state.balance.toLocaleString('id-ID')} untuk beli emas?`)) {
+      const moved = state.balance;
+      state.convertedToGoldRp += moved;
+      state.balance = 0;
+      state.logs.unshift({
+        id: Date.now(),
+        date: todayStr(0),
+        amount: moved,
+        note: 'Cair ke emas',
+        type: 'out'
+      });
+      playCoinSound(true);
+      save();
+    }
+  }
+
+  function updateSettings() {
+    const t = parseInt(document.getElementById('targetInput').value);
+    const g = parseInt(document.getElementById('goldPriceInput').value);
+    if (t >= 10000) state.target = t;
+    if (g >= 100000) state.goldPrice = g;
+    save();
+  }
+
+  function undoLast() {
+    if (state.logs.length <= 1) return;
+    const last = state.logs.shift();
+    if (last.type === 'in') {
+      state.balance = Math.max(0, state.balance - last.amount);
+      state.lifetimeSaved = Math.max(0, state.lifetimeSaved - last.amount);
+      if (state.dailyTotals[last.date]) {
+        state.dailyTotals[last.date] = Math.max(0, state.dailyTotals[last.date] - last.amount);
+      }
+    } else if (last.type === 'out') {
+      state.balance += last.amount;
+      state.convertedToGoldRp = Math.max(0, state.convertedToGoldRp - last.amount);
+    }
+    save();
+  }
+
+  function exportJSON() {
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `celengan-backup-${todayStr(0)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function importJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const imported = JSON.parse(e.target.result);
+        if (typeof imported.balance === 'number' && Array.isArray(imported.logs)) {
+          state = Object.assign({}, defaultState, imported);
+          save();
+          alert('Data backup berhasil dipulihkan.');
+        } else {
+          alert('Format file JSON tidak valid.');
+        }
+      } catch (err) {
+        alert('Gagal membaca file JSON.');
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  }
+
+  function resetApp() {
+    if (confirm('Reset seluruh data kembali ke Rp 30.000?')) {
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+  }
+
+  function formatRp(n) {
+    return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+  }
+
+  function render() {
+    checkStreakIntegrity();
+    const today = todayStr(0);
+
+    document.getElementById('streakVal').innerText = state.streak;
+    document.getElementById('bestStreakVal').innerText = Math.max(state.bestStreak || 0, state.streak);
+    document.getElementById('shieldCount').innerText = state.shieldAvailable ? '1' : '0';
+    document.getElementById('shieldBadge').style.opacity = state.shieldAvailable ? '1' : '0.35';
+
+    const todayAmt = state.dailyTotals[today] || 0;
+    const statusTag = document.getElementById('todayStatusTag');
+    if (todayAmt > 0) {
+      statusTag.innerText = 'TERCATAT';
+      statusTag.className = 'status-tag status-done';
+    } else {
+      statusTag.innerText = 'BELUM SETOR';
+      statusTag.className = 'status-tag status-pending';
+    }
+    document.getElementById('todayTotalVal').innerText = formatRp(todayAmt);
+
+    document.getElementById('balanceVal').innerText = formatRp(state.balance);
+    document.getElementById('lifetimeStat').innerText = `Akumulasi: ${formatRp(state.lifetimeSaved)}`;
+
+    const totalForGold = state.balance + state.convertedToGoldRp;
+    const grams = totalForGold / state.goldPrice;
+    document.getElementById('goldGramVal').innerText = `${grams.toFixed(4)} gr`;
+    document.getElementById('goldPriceLabel').innerText = formatRp(state.goldPrice);
+
+    const pct = Math.min(100, Math.round((state.balance / state.target) * 100));
+    const rem = Math.max(0, state.target - state.balance);
+    document.getElementById('targetHeader').innerText = `${formatRp(state.balance)} / ${formatRp(state.target)}`;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').innerText = `${pct}%`;
+    document.getElementById('milestoneHint').innerText = rem === 0
+      ? 'Target siklus tercapai.'
+      : `Sisa ${formatRp(rem)} menuju target siklus.`;
+
+    const hmEl = document.getElementById('heatmapGrid');
+    hmEl.innerHTML = '';
+    let activeCount = 0;
+    for (let i = 29; i >= 0; i--) {
+      const dStr = todayStr(-i);
+      const amt = state.dailyTotals[dStr] || 0;
+      if (amt > 0) activeCount++;
+
+      const cell = document.createElement('div');
+      cell.className = 'hm-cell' + (i === 0 ? ' hm-today' : '');
+      if (amt >= 10000) cell.classList.add('hm-l4');
+      else if (amt >= 5000) cell.classList.add('hm-l3');
+      else if (amt >= 3000) cell.classList.add('hm-l2');
+      else if (amt > 0) cell.classList.add('hm-l1');
+
+      cell.title = `${dStr}: ${formatRp(amt)}`;
+      cell.innerText = dStr.slice(8, 10);
+      hmEl.appendChild(cell);
+    }
+    document.getElementById('activeDaysCount').innerText = `${activeCount}/30 hari aktif`;
+    document.getElementById('consistencyPct').innerText = `${Math.round((activeCount / 30) * 100)}%`;
+
+    document.getElementById('targetInput').value = state.target;
+    document.getElementById('goldPriceInput').value = state.goldPrice;
+
+    const logEl = document.getElementById('logList');
+    logEl.innerHTML = state.logs.map(l => {
+      const color = l.type === 'in' ? 'var(--green-bright)' : (l.type === 'out' ? 'var(--gold)' : 'var(--cyan)');
+      const prefix = l.type === 'in' ? '+' : (l.type === 'out' ? '-' : '');
+      const amtText = l.amount > 0 ? `${prefix}${formatRp(l.amount)}` : '';
+      return `
+        <div class="log-row">
+          <span class="log-desc"><b class="mono">[${l.date.slice(5)}]</b> ${l.note}</span>
+          <span class="log-amt" style="color:${color}; font-weight:bold;">${amtText}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  render();
+</script>
+</body>
+</html>
